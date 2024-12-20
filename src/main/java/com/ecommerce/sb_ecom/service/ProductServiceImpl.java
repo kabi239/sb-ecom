@@ -120,6 +120,7 @@ public class ProductServiceImpl implements ProductService {
         Pageable pageDetails = PageRequest.of(pageNumber, pageSize, sortByAndOrder);
         Page<Product> productPage = productRepository.findAll(pageDetails);
 
+
         ProductResponse productResponse = new ProductResponse();
         productResponse.setProducts(productDTOS);
 
