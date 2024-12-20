@@ -69,7 +69,7 @@ public class ProductServiceImpl implements ProductService {
         Pageable pageDetails = PageRequest.of(pageNumber, pageSize, sortByAndOrder);
         Page<Product> productPage = productRepository.findAll(pageDetails);
 
-        List<Product> products=productRepository.findAll();
+        List<Product> products=productPage.getContent();
         List<ProductDTO> productDTOS= products.stream().map(product ->
                 modelMapper.map(product,ProductDTO.class)).toList();
         if(products.isEmpty()){
@@ -91,14 +91,18 @@ public class ProductServiceImpl implements ProductService {
     public ProductResponse searchByCatagory(Long categoryId, Integer pageNumber, Integer pageSize, String sortBy, String sortOrder) {
         Category category = categoryRepository.findById(categoryId).orElseThrow(
                 () -> new ResourceNotFoundException("Category","categoryId",categoryId));
-        List<Product> products = productRepository.findByCategoryOrderByPriceAsc(category);
-        List<ProductDTO> productDTOS= products.stream().map(
-                product ->modelMapper.map(product,ProductDTO.class)).toList();
-
         Sort sortByAndOrder = sortOrder.equalsIgnoreCase("asc")?
                 Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
         Pageable pageDetails = PageRequest.of(pageNumber, pageSize, sortByAndOrder);
-        Page<Product> productPage = productRepository.findAll(pageDetails);
+        Page<Product> productPage = productRepository.findByCategoryOrderByPriceAsc(category,pageDetails);
+
+        List<Product> products = productPage.getContent();
+        List<ProductDTO> productDTOS= products.stream().map(
+                product ->modelMapper.map(product,ProductDTO.class)).toList();
+
+        if(products.size()==0){
+            throw new APIException("This category does not have any products");
+        }
 
         ProductResponse productResponse = new ProductResponse();
         productResponse.setProducts(productDTOS);
@@ -112,15 +116,16 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponse searchProductByKeyword(String keyword, Integer pageNumber, Integer pageSize, String sortBy, String sortOrder) {
-        List<Product> products = productRepository.findByProductNameLikeIgnoreCase('%'+keyword+'%');
-        List<ProductDTO> productDTOS = products.stream().map(product ->
-                modelMapper.map(product,ProductDTO.class)).toList();
         Sort sortByAndOrder = sortOrder.equalsIgnoreCase("asc")?
                 Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
         Pageable pageDetails = PageRequest.of(pageNumber, pageSize, sortByAndOrder);
-        Page<Product> productPage = productRepository.findAll(pageDetails);
-
-
+        Page<Product> productPage = productRepository.findByProductNameLikeIgnoreCase('%'+keyword+'%',pageDetails);
+        List<Product> products = productPage.getContent();
+        List<ProductDTO> productDTOS = products.stream().map(product ->
+                modelMapper.map(product,ProductDTO.class)).toList();
+        if(products.size()==0){
+            throw new APIException("No products found with keyword: "+ keyword);
+        }
         ProductResponse productResponse = new ProductResponse();
         productResponse.setProducts(productDTOS);
 
