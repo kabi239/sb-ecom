@@ -56,4 +56,9 @@ public class User {
     private Set<Role> roles = new HashSet<>();
     //Represents the collection of roles assigned to a user.
     //The Set ensures no duplicate roles are assigned to the same user.
+
+    @OneToMany(mappedBy = "user" , cascade = {CascadeType.PERSIST,CascadeType.MERGE},
+    orphanRemoval = true) // if a user is deleted all the product will become orphan
+    // or not mapped with anything, by using orphanRemoval ,the product associated will also be removed
+    private Set<Product> products = new HashSet<>();
 }
