@@ -1,14 +1,18 @@
-package com.ecommerce.sb_ecom.security.jwt;
+package com.ecommerce.sb_ecom.security.response;
 
 import java.util.List;
 
 // format of response that will be sent back to user with token
-public class LoginResponse {
+public class UserInfoResponse {
+
+
+    private  Long Id;
     private String jwtToken;
     private String username;
     private List<String> roles;
 
-    public LoginResponse( String username, List<String> roles,String jwtToken) {
+    public UserInfoResponse(Long Id,String username, List<String> roles, String jwtToken) {
+        this.Id = Id;
         this.jwtToken = jwtToken;
         this.username = username;
         this.roles = roles;
@@ -36,5 +40,13 @@ public class LoginResponse {
 
     public void setRoles(List<String> roles) {
         this.roles = roles;
+    }
+
+    public Long getId() {
+        return Id;
+    }
+
+    public void setId(Long id) {
+        Id = id;
     }
 }

@@ -1,6 +1,6 @@
 package com.ecommerce.sb_ecom.service;
 
-import com.ecommerce.sb_ecom.Repository.CategoryRepository;
+import com.ecommerce.sb_ecom.repository.CategoryRepository;
 import com.ecommerce.sb_ecom.exceptions.APIException;
 import com.ecommerce.sb_ecom.exceptions.ResourceNotFoundException;
 import com.ecommerce.sb_ecom.model.Category;
