@@ -14,12 +14,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Category {
-    @Id // it is marking it as a unique id as evey table should have an unique ID
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long categoryId;
 
     @NotBlank
-    @Size(min = 5, message = "Catagory name must contain atleast 5 characters.")
+    @Size(min = 5, message = "Category name must contain atleast 5 characters")
     private String categoryName;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)

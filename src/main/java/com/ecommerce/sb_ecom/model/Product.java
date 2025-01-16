@@ -15,6 +15,7 @@ import lombok.ToString;
 @Table(name = "products")
 @ToString
 public class Product {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long productId;
@@ -25,12 +26,13 @@ public class Product {
     private String image;
 
     @NotBlank
-    @Size(min = 6, message = "Product description must contain atleast 3 characters")
+    @Size(min = 6, message = "Product description must contain atleast 6 characters")
     private String description;
     private Integer quantity;
-    private Double price; // actual price 100
-    private double discount; // 25%
-    private double specialPrice; // after discount price 100 - {(25/100)*(100-> actual price)} = 75
+    private double price;
+    private double discount;
+    private double specialPrice;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;

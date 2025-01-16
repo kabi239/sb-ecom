@@ -1,22 +1,13 @@
 package com.ecommerce.sb_ecom.security.request;
 
-
 import jakarta.validation.constraints.NotBlank;
 
-// this is the format of request that we will get from user
 public class LoginRequest {
     @NotBlank
     private String username;
+
     @NotBlank
     private String password;
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public String getUsername() {
         return username;
@@ -26,6 +17,11 @@ public class LoginRequest {
         this.username = username;
     }
 
+    public String getPassword() {
+        return password;
+    }
 
-
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

@@ -11,22 +11,19 @@ import java.util.UUID;
 
 @Service
 public class FileServiceImpl implements FileService {
+
     @Override
     public String uploadImage(String path, MultipartFile file) throws IOException {
-        // get the file name
-        String originalFilename = file.getOriginalFilename();
-        //Generate a unique filename using UUID
+        String originalFileName = file.getOriginalFilename();
         String randomId = UUID.randomUUID().toString();
-        String fileName = randomId.concat(originalFilename.substring(originalFilename.lastIndexOf(".")));
+        String fileName = randomId.concat(originalFileName.substring(originalFileName.lastIndexOf('.')));
         String filePath = path + File.separator + fileName;
-        // check if path exist
+
         File folder = new File(path);
-        if(!folder.exists())
+        if (!folder.exists())
             folder.mkdir();
-        //Prevents errors if the directory is missing by ensuring it exists before trying to save the file.
-        //upload to server
+
         Files.copy(file.getInputStream(), Paths.get(filePath));
-        //return filename
         return fileName;
     }
 }

@@ -1,4 +1,4 @@
-package com.ecommerce.sb_ecom.repository;
+package com.ecommerce.sb_ecom.repositories;
 
 import com.ecommerce.sb_ecom.model.AppRole;
 import com.ecommerce.sb_ecom.model.Role;

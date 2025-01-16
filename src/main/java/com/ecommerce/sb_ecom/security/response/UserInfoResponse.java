@@ -2,28 +2,25 @@ package com.ecommerce.sb_ecom.security.response;
 
 import java.util.List;
 
-// format of response that will be sent back to user with token
 public class UserInfoResponse {
-
-
-    private  Long Id;
+    private Long id;
     private String jwtToken;
     private String username;
     private List<String> roles;
 
-    public UserInfoResponse(Long Id,String username, List<String> roles, String jwtToken) {
-        this.Id = Id;
-        this.jwtToken = jwtToken;
+    public UserInfoResponse(Long id, String username, List<String> roles, String jwtToken) {
+        this.id = id;
         this.username = username;
         this.roles = roles;
+        this.jwtToken = jwtToken;
     }
 
-    public String getUsername() {
-        return username;
+    public Long getId() {
+        return id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getJwtToken() {
@@ -34,6 +31,14 @@ public class UserInfoResponse {
         this.jwtToken = jwtToken;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public List<String> getRoles() {
         return roles;
     }
@@ -41,12 +46,6 @@ public class UserInfoResponse {
     public void setRoles(List<String> roles) {
         this.roles = roles;
     }
-
-    public Long getId() {
-        return Id;
-    }
-
-    public void setId(Long id) {
-        Id = id;
-    }
 }
+
+

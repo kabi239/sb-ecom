@@ -14,59 +14,59 @@ import java.util.Set;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "users" , uniqueConstraints =
-        {@UniqueConstraint(columnNames = "username"),
-        @UniqueConstraint(columnNames = "email")})
+@Table(name = "users",
+        uniqueConstraints = {
+        @UniqueConstraint(columnNames = "username"),
+        @UniqueConstraint(columnNames = "email")
+        })
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long userId;
 
     @NotBlank
     @Size(max = 20)
-    private String username;
+    @Column(name = "username")
+    private String userName;
 
     @NotBlank
     @Size(max = 50)
     @Email
+    @Column(name = "email")
     private String email;
 
     @NotBlank
-    @Size(max = 20)
+    @Size(max = 120)
+    @Column(name = "password")
     private String password;
 
-    public User(String username, String email, String password) {
-        this.username = username;
+    public User(String userName, String email, String password) {
+        this.userName = userName;
         this.email = email;
         this.password = password;
     }
 
+    @Setter
+    @Getter
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+                fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role",
+                joinColumns = @JoinColumn(name = "user_id"),
+                inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
     @Getter
     @Setter
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE} , fetch = FetchType.EAGER) //PERSIST: When a User is saved, any new Role instances in the roles set will also be saved automatically.
-    //MERGE: Updates to the User entity will propagate changes to associated Role entities.
-    //many to many because -
-    //A User can have multiple Roles (e.g., ADMIN, SELLER, BUYER).
-    //A Role can be assigned to multiple Users.
-    //Ensures that roles are loaded immediately whenever a User is fetched
-    @JoinTable(name = "user_role",   // The join table acts as a bridge that connects the two entities and also avoids duplicating data.
-               joinColumns = @JoinColumn(name = "user_id"), //-> refers to the primary key of user Entity
-                inverseJoinColumns = @JoinColumn(name = "role_id")) // ->refers to the primary key of role Entity
-    private Set<Role> roles = new HashSet<>();
-    //Represents the collection of roles assigned to a user.
-    //The Set ensures no duplicate roles are assigned to the same user.
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "user_address",
+                joinColumns = @JoinColumn(name = "user_id"),
+                inverseJoinColumns = @JoinColumn(name = "address_id"))
+    private List<Address> addresses = new ArrayList<>();
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "user" , cascade = {CascadeType.PERSIST,CascadeType.MERGE},
-    orphanRemoval = true) // if a user is deleted all the product will become orphan
-    // or not mapped with anything, by using orphanRemoval ,the product associated will also be removed
-    private Set<Product> products = new HashSet<>();
-
-    // User is the owner of this relationship
-    @Getter
-    @Setter
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-    @JoinTable(name= "user_address", joinColumns = @JoinColumn(name = "user_id"),
-    inverseJoinColumns = @JoinColumn(name = "address_id"))
-    private List<Address> addresses = new ArrayList<>();
+    @OneToMany(mappedBy = "user",
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+            orphanRemoval = true)
+    private Set<Product> products;
 }

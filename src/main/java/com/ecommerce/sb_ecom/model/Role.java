@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 @Table(name = "roles")
 public class Role {
 
