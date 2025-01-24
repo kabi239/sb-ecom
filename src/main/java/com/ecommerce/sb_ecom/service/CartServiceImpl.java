@@ -137,7 +137,7 @@ public class CartServiceImpl implements CartService {
     @Transactional// it makes sure that the method runs within a transactional context
     // which means if any part of transaction fails. the transaction is rolled back
     @Override
-    public CartDTO updateProductQuantityInCart(Long productId, int delete) {
+    public CartDTO updateProductQuantityInCart(Long productId, Integer quantity) {
         String emailId = authUtil.loggedInEmail();
         Cart userCart = cartRepository.findCartByEmail(emailId);
         Long cartId = userCart.getCartId();
@@ -180,6 +180,23 @@ public class CartServiceImpl implements CartService {
 
         cartDTO.setProducts(productStream.toList());
         return cartDTO;
+    }
+
+    @Override
+    public String deleteProductFromCart(Long cartId, Long productId) {
+        Cart cart= cartRepository.findById(cartId)
+                .orElseThrow(()->new ResourceNotFoundException("cart", "cartId", cartId));
+
+        CartItem cartItem = cartItemRepository.findCartItemByProductIdAndCartId(cartId,productId);
+        if (cartItem == null) {
+            throw new ResourceNotFoundException("Produvct", "productId", cartId);
+        }
+        cart.setTotalPrice(cart.getTotalPrice()-cartItem.getProduct().getPrice());
+        //Product product=cartItem.getProduct();
+        //product.setQuantity(product.getQuantity()+cartItem.getQuantity());
+
+        cartItemRepository.deleteCartItemByProductIdAndCartId(cartId,productId);
+        return "Product "+ cartItem.getProduct().getProductName()+" removed from cart";
     }
 
 

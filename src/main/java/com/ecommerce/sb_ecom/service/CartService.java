@@ -1,6 +1,7 @@
 package com.ecommerce.sb_ecom.service;
 
 import com.ecommerce.sb_ecom.payload.CartDTO;
+import jakarta.persistence.criteria.CriteriaBuilder;
 
 import java.util.List;
 
@@ -11,5 +12,7 @@ public interface CartService {
 
     CartDTO getCart(String emailId, Long cartId);
 
-    CartDTO updateProductQuantityInCart(Long productId, int delete);
+    CartDTO updateProductQuantityInCart(Long productId, Integer quantity);
+
+    String deleteProductFromCart(Long cartId, Long productId);
 }
