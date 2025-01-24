@@ -1,10 +1,43 @@
-<configuration>
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
+<configuration>  <!--All configuration for logging must be defined within this tag.-->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">  <!--A component responsible for outputting log messages to a specific destination-->
+        <encoder> <!--Encoders define the format of the log messages.-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %highlight(%-5level) %cyan(%logger{36}) [%file:%line] - %msg%n</pattern>
+            <!--%d{yyyy-MM-dd HH:mm:ss}: Formats the date and time of the log event.
+[%thread]: Displays the name of the thread that generated the log.
+%highlight(%-5level): Adds color coding to log levels (INFO, DEBUG, ERROR, etc.) for console logs.
+%cyan(%logger{36}): Displays the logger name (class/package) in cyan color, limiting the name to 36 characters.
+[%file:%line]: Displays the filename and line number where the log was generated.
+- %msg: Displays the actual log message.
+%n: Adds a new line after the log message.-->
         </encoder>
     </appender>
-    <root level="INFO">
-        <appender-ref ref="CONSOLE" />
+
+    <appender name="ROLLING-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--This defines another appender named ROLLING-FILE.
+RollingFileAppender: Writes logs to a file and handles log file rotation (creating new files based on size or time).
+-->
+        <file>logs/application.log</file> <!--the logs are stored in a file named application.log inside the log's directory.-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--Defines a rolling policy to manage log file rotation based on time.-->
+            <fileNamePattern>logs/application-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!--Specifies the naming pattern for rotated log files.
+%d{yyyy-MM-dd}: Adds a date to the log file name. For example, on 2025-01-24, the file will be named application-2025-01-24.log.-->
+            <maxHistory>7</maxHistory>
+            <!--Limits the number of rotated log files to keep.
+Here, logs older than 7 days will be deleted automatically.-->
+        </rollingPolicy>
+        <encoder> <!--Specifies the format of log messages for the ROLLING-FILE appender.
+The format is the same as the CONSOLE appender but without color coding since it's written to a file.-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <!--Formats the log messages for the file output.
+-->
+        </encoder>
+    </appender>
+
+    <root level="INFO"> <!--he root logger is the parent logger for all loggers in the application.-->
+        <appender-ref ref="CONSOLE" /><!--Associates the CONSOLE appender with the root logger, enabling console output.
+-->
+        <appender-ref ref="ROLLING-FILE" /><!--Associates the ROLLING-FILE appender with the root logger, enabling log file output.
+-->
     </root>
 </configuration>
