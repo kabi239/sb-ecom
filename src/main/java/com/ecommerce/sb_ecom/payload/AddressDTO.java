@@ -1,6 +1,5 @@
 package com.ecommerce.sb_ecom.payload;
 
-import com.ecommerce.sb_ecom.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
