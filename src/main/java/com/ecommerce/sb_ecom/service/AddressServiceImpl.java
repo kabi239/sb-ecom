@@ -5,11 +5,12 @@ import com.ecommerce.sb_ecom.model.Address;
 import com.ecommerce.sb_ecom.model.User;
 import com.ecommerce.sb_ecom.payload.AddressDTO;
 import com.ecommerce.sb_ecom.repositories.AddressRepository;
+import com.ecommerce.sb_ecom.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 @Service
@@ -19,6 +20,8 @@ public class AddressServiceImpl implements AddressService {
 
     @Autowired
     ModelMapper modelMapper;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public AddressDTO createAddress(AddressDTO addressDTO, User user) {
@@ -55,5 +58,28 @@ public class AddressServiceImpl implements AddressService {
         List<AddressDTO> addressDTOList =addressList.stream()
                 .map(address -> modelMapper.map(address, AddressDTO.class)).toList();
         return addressDTOList;
+    }
+
+    @Override
+    public AddressDTO updateAddress(Long addressId, AddressDTO addressDTO) {
+        Address addressFromDatabase = addressRepository.findById(addressId)
+                .orElseThrow(() -> new ResourceNotFoundException("Address", "id", addressId));
+        addressFromDatabase.setCity(addressDTO.getCity());
+        addressFromDatabase.setState(addressDTO.getState());
+        addressFromDatabase.setCountry(addressDTO.getCountry());
+        addressFromDatabase.setStreet(addressDTO.getStreet());
+        addressFromDatabase.setPincode(addressDTO.getPincode());
+        addressFromDatabase.setBuildingName(addressDTO.getBuildingName());
+
+        Address updatedAddress = addressRepository.save(addressFromDatabase);
+
+        User user =addressFromDatabase.getUser();
+        user.getAddresses().removeIf(address -> address.getAddressId().equals(addressId));
+        user.getAddresses().add(updatedAddress);
+
+        userRepository.save(user);
+
+        AddressDTO updatedAddressDTO = modelMapper.map(updatedAddress, AddressDTO.class);
+        return updatedAddressDTO;
     }
 }
