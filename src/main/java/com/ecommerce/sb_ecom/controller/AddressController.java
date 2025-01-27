@@ -1,5 +1,6 @@
 package com.ecommerce.sb_ecom.controller;
 
+import com.ecommerce.sb_ecom.model.Address;
 import com.ecommerce.sb_ecom.model.User;
 import com.ecommerce.sb_ecom.payload.AddressDTO;
 import com.ecommerce.sb_ecom.service.AddressService;
@@ -32,5 +33,10 @@ public class AddressController {
     public ResponseEntity<List<AddressDTO>> getAllAddresses(){
         List<AddressDTO> allSavedAddresses = addressService.getAllAddresses();
         return new ResponseEntity<>(allSavedAddresses, HttpStatus.OK);
+    }
+    @GetMapping("/addresses/{addressId}")
+    public ResponseEntity<AddressDTO> getAddressById(@PathVariable Long addressId){
+        AddressDTO addressDTO = addressService.getAddressById(addressId);
+        return new ResponseEntity<AddressDTO>(addressDTO,HttpStatus.OK);
     }
 }
