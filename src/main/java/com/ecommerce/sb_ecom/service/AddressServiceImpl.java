@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,5 +31,12 @@ public class AddressServiceImpl implements AddressService {
         Address savedAddress = addressRepository.save(address); // the saved address is returned
 
         return new ModelMapper().map(savedAddress, AddressDTO.class);
+    }
+
+    @Override
+    public List<AddressDTO> getAllAddresses() {
+        List<Address> addressList = addressRepository.findAll();
+        List<AddressDTO> addressDTOList = addressList.stream().map(address -> modelMapper.map(address, AddressDTO.class)).toList();
+        return addressDTOList;
     }
 }
