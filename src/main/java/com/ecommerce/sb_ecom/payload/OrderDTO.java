@@ -21,4 +21,5 @@ public class OrderDTO {
     private String orderStatus;
     private Double totalAmount;
     private Address shippingAddress;
+    private Long addressId;
 }

@@ -35,8 +35,9 @@ public class Order {
 
 
     private Double totalAmount;
+    private String orderStatus;
 
     @ManyToOne
     @JoinColumn(name = "address_id")
-    private Address shippingAddress;
+    private Address address;
 }
