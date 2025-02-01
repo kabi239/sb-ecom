@@ -11,20 +11,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "orders")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="orders")
 public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
 
     @Email
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String email;
 
-    @OneToMany(mappedBy = "order",cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "order", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<OrderItem> orderItems = new ArrayList<>();
 
     private LocalDate orderDate;
@@ -33,10 +34,10 @@ public class Order {
     @JoinColumn(name = "payment_id")
     private Payment payment;
 
-
     private Double totalAmount;
     private String orderStatus;
 
+    // Reference to Shipping Address
     @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;

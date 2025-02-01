@@ -7,10 +7,11 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "order_items")
+@AllArgsConstructor
+@NoArgsConstructor
 public class OrderItem {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderItemId;
@@ -20,10 +21,11 @@ public class OrderItem {
     private Product product;
 
     @ManyToOne
-    @JoinColumn(name  ="order_id")
+    @JoinColumn(name = "order_id")
     private Order order;
 
     private Integer quantity;
     private double discount;
     private double orderedProductPrice;
+
 }

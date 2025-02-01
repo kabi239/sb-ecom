@@ -6,10 +6,6 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "addresses")
@@ -42,9 +38,8 @@ public class Address {
     private String country;
 
     @NotBlank
-    @Size(min = 6, message = "Pincode must be atleast 6 characters")
+    @Size(min = 5, message = "Pincode must be atleast 5 characters")
     private String pincode;
-
 
     @ManyToOne
     @JoinColumn(name = "user_id")
