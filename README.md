@@ -58,6 +58,8 @@ This is a simple e-commerce website built using **Spring Boot**. It provides fea
 | 📂 Get Products by Category | `/api/public/categories/{categoryId}/products` | GET | Retrieves products by category |
 | 🔍 Get Products by Keyword | `/api/public/products/keyword/{keyword}` | GET | Searches products by keyword |
 | 🔄 Update Product | `/api/products/{productId}` | PUT | Updates an existing product |
+| 🔄 Update Product Image | `/api/products/{productId}/image` | PUT | Updates an existing product |
+| ❌ Delete Product | `/api/products/{productId}` | DELETE | Delete a product |
 
 ### **📂 Category Endpoints**
 
@@ -65,27 +67,29 @@ This is a simple e-commerce website built using **Spring Boot**. It provides fea
 |----------|---------|--------|---------|
 | ➕ Add Category | `/api/admin/category` | POST | Add a new category |
 | 📋 Get Categories | `/api/public/categories` | GET | Retrieve all categories |
-| ✏️ Update Category | `/api/admin/category/{id}` | PUT | Update a category |
-| ❌ Delete Category | `/api/admin/category/{id}` | DELETE | Delete a category |
+| ✏️ Update Category | `/api/admin/category/{categoryId}` | PUT | Update a category |
+| ❌ Delete Category | `/api/admin/category/{categoryId}` | DELETE | Delete a category |
 
 ### **🛒 Cart Endpoints**
 
 | API Name | Endpoint | Method | Purpose |
 |----------|---------|--------|---------|
-| ➕ Add to Cart | `/api/cart/add` | POST | Add a product to cart |
-| 🛒 View Cart | `/api/cart` | GET | Retrieve user's cart |
-| 🔄 Update Cart | `/api/cart/update/{id}` | PUT | Update cart item quantity |
-| ❌ Remove Item | `/api/cart/remove/{id}` | DELETE | Remove an item from cart |
-| ❌ Clear Cart | `/api/cart/clear` | DELETE | Clear all items from cart |
+| ➕ Add to Cart | `api/carts/products/{productId}/quantity/{quantity}` | POST | Add a product to cart |
+| 🛒 Get All Carts | `/api/carts` | GET | Retrieves List of all carts |
+| 🛒 Get Users Cart | `/api/carts/users/cart` | GET | Retrieves the cart of logged- in user |
+| 🔄 Update Product Quantity | `/api/carts/products/{productId}/quantity/{operation}` | PUT | Update cart item quantity |
+| ❌ Remove Item | `/api/cart/{cartId}/products/{productId}` | DELETE | Remove an item from cart |
 
 ### **📍 Address Endpoints**
 
 | API Name | Endpoint | Method | Purpose |
 |----------|---------|--------|---------|
-| ➕ Add Address | `/api/address/add` | POST | Add a new address |
-| 📋 Get Addresses | `/api/address` | GET | Retrieve user's addresses |
-| ✏️ Update Address | `/api/address/update/{id}` | PUT | Update an address |
-| ❌ Delete Address | `/api/address/delete/{id}` | DELETE | Delete an address |
+| ➕ Create Address | `/api/addresses/add` | POST | Add a new address |
+| 📋 Get All Addresses | `/api/addresses` | GET | Retrieve all addresses |
+| 📋 Get Addresses By ID | `/api/addresses/{addressId}` | GET | Retrieve an address by Id |
+| 📋 Get Addresses By User | `/api/users/addresses` | GET | Retrieve user's addresses |
+| ✏️ Update Address | `/api/addresses/{addressId}` | PUT | Update an address by Id |
+| ❌ Delete Address | `/api/addresses/{addressId}` | DELETE | Delete an address by Id |
 
 ## 🔄 Application Flow
 
