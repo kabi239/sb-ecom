@@ -125,10 +125,6 @@ This is a simple e-commerce website built using **Spring Boot**. It provides fea
 - A **📦 product** belongs to a **📁 category** (many-to-one).
 - A **📦 product** can have multiple **🛍️ cart items** and **📋 order items** (one-to-many).
 
-## 📸 Screenshots
-
-(Include 📸 screenshots of the working application here)
-
 ## 🤝 Contributing
 
 Feel free to 🍴 fork the project and submit pull requests!
